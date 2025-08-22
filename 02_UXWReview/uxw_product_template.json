@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "product_name": "Your_Product_Name",
+    "category": "Mobile App/Website",
+    "target_market": "Small to medium businesses, low tech savvy users",
+    "version": "0.1.0",
+    "updated_at": "2025-08-16",
+    "owner": "Your_Team"
+  },
+  "stakeholders": [
+    {"name": "Ops", "goal": "Fewer verification mistakes", "kpis": ["error_recovery_rate"]},
+    {"name": "Compliance", "goal": "No PII leakage in UI copy", "kpis": ["privacy_incidents=0"]},
+    {"name": "Support", "goal": "Reduce repeated PIN issues", "kpis": ["support_contact_rate"]}
+  ],
+  "personas": [
+    {
+      "id": "low_tech_beneficiary",
+      "summary": "First-time user, low tech literacy, Indonesian locale",
+      "needs": ["simple words", "step-by-step guidance"],
+      "anxieties": ["takut akun diblokir", "khawatir data salah"],
+      "vocabulary": {"otp": "kode OTP", "id_number": "NIK"}
+    }
+  ],
+  "user_stories": [
+    {"id": "PIN_RESET_01", "as": "beneficiary", "i_want": "reset PIN", "so_i_can": "lanjut verifikasi", "risk": "code mismatch"},
+    {"id": "DOC_UPLOAD_02", "as": "agent", "i_want": "unggah dokumen NIK", "so_i_can": "validasi cepat", "risk": "low bandwidth"}
+  ],
+  "flows": [
+    {
+      "id": "RESET_PIN",
+      "steps": ["Enter Phone", "Receive OTP", "Enter OTP", "Set New PIN", "Done"],
+      "edge_cases": ["otp_mismatch", "otp_expired", "offline"]
+    }
+  ],
+  "platforms": ["Android", "Web"],
+  "components_and_limits": [
+    {"key": "toast", "title_max": 24, "body_max": 90},
+    {"key": "button", "label_max": 16},
+    {"key": "modal", "title_max": 40, "body_max": 140, "helptext_max": 90}
+  ],
+  "localization": {
+    "primary_locale": "id-ID",
+    "invariant_terms": ["MAP", "NIK", "PIN"]
+  },
+  "compliance_overrides": {
+    "legal_required_clauses": ["Verifikasi data sesuai regulasi Kemenkeu."],
+    "must_not_claim": ["Subsidi disetujui otomatis"]
+  },
+  "analytics_and_support": {
+    "top_errors": [{"code": "otp_mismatch", "rate_pct": 28}],
+    "user_quotes": ["Saya takut akun terkunci kalau salah."]
+  },
+  "glossary_overrides": {
+    "preferred": {"verification_code": "kode OTP"},
+    "banned": {"Proceed": "→ 'Lanjutkan'"}
+  },
+  "tone_overrides": {
+    "error_sensitive": "lebih menenangkan, tambah next step + waktu tunggu"
+  },
+  "strings_to_review": [
+    {
+      "key": "reset.toast.error",
+      "location": "Toast after OTP entry",
+      "component": "toast",
+      "state": "error",
+      "hard_limits": {"body_max": 90},
+      "original": "Reset failed. You entered the wrong code.",
+      "placeholders": {"phone": "{phone}"}
+    },
+    {
+      "key": "reset.modal.cta",
+      "location": "Modal primary button",
+      "component": "button",
+      "state": "default",
+      "hard_limits": {"label_max": 16},
+      "original": "Proceed"
+    }
+  ],
+  "stakeholder_lenses": {
+    "Compliance": ["no PII in errors", "include legal_required_clauses"],
+    "Support": ["avoid blame", "include self-serve next step"],
+    "Growth": ["CTA clarity", "benefit-led microcopy"]
+  }
+}
